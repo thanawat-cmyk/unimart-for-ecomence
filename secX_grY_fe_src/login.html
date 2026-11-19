@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Unimart Gunpla Store</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Unified External CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+</head>
+<body id="admin-login-body">
+
+    <main id="admin-login-wrapper">
+        <!-- Backdrop Overlay for readability & depth -->
+        <div class="login-backdrop-overlay"></div>
+
+        <div class="login-content-container">
+            <!-- Brand Logo at Top -->
+            <header class="login-brand-header">
+                <a href="index.html" title="กลับสู่หน้าหลัก Unimart">
+                    <img src="assets/images/logo.png" alt="Unimart Logo" width="220" height="90">
+                </a>
+            </header>
+
+            <!-- Login Card -->
+            <article id="login-card">
+                <h1 class="login-card-title" id="login-main-title">SIGN IN</h1>
+                <p id="login-sub-title" style="text-align: center; color: #64748b; font-size: 0.95rem; margin: -18px 0 20px 0; font-weight: 500;">
+                    เข้าสู่ระบบ Unimart Storefront &amp; Admin Portal
+                </p>
+
+                <!-- Role Selector Tabs: เลือกระหว่างลูกค้าทั่วไป กับ ผู้ดูแลระบบ -->
+                <div class="login-role-tabs" role="tablist" aria-label="Select Login Role">
+                    <button type="button" class="login-role-tab active" id="tab-customer" role="tab" aria-selected="true" title="สลับเป็นโหมดลูกค้าทั่วไป">
+                        <span style="font-size: 1.15rem;">👤</span>
+                        <span>ลูกค้าทั่วไป (Customer)</span>
+                    </button>
+                    <button type="button" class="login-role-tab" id="tab-admin" role="tab" aria-selected="false" title="สลับเป็นโหมดผู้ดูแลระบบ">
+                        <span style="font-size: 1.15rem;">🛡️</span>
+                        <span>ผู้ดูแลระบบ (Admin)</span>
+                    </button>
+                </div>
+
+                <!-- Role Context Banner with Quick Demo Autofill -->
+                <div class="role-notice-banner" id="role-notice-banner">
+                    <span id="role-notice-text">🛒 <strong>โหมดลูกค้า:</strong> สั่งซื้อสินค้าและดูประวัติคำสั่งซื้อ</span>
+                    <button type="button" class="btn-quick-fill" id="btn-quick-fill" title="คลิกเพื่อกรอกบัญชีตัวอย่างอัตโนมัติ">
+                        ⚡ เติมบัญชีตัวอย่าง
+                    </button>
+                </div>
+
+                <form id="admin-login-form" novalidate>
+                    <!-- Username Field -->
+                    <div class="login-form-group">
+                        <label for="admin-username" id="label-username">Username หรือ Email</label>
+                        <input 
+                            type="text" 
+                            id="admin-username" 
+                            name="username" 
+                            class="login-input" 
+                            placeholder="Enter username" 
+                            value="GundamLover159"
+                            required 
+                            autocomplete="username"
+                        >
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="login-form-group">
+                        <label for="admin-password">Password</label>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                id="admin-password" 
+                                name="password" 
+                                class="login-input" 
+                                placeholder="Enter password" 
+                                value="customer123"
+                                required 
+                                autocomplete="current-password"
+                            >
+                            <img 
+                                src="assets/images/icon-eye.png" 
+                                alt="Toggle Password Visibility" 
+                                id="toggle-password-btn" 
+                                class="toggle-password-icon" 
+                                title="คลิกเพื่อแสดง/ซ่อนรหัสผ่าน"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Remember Me Option -->
+                    <div class="login-options-row">
+                        <label class="remember-checkbox-group" for="remember-me">
+                            <input type="checkbox" id="remember-me" name="remember" checked>
+                            <span>Remember me</span>
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="btn-login-submit" class="btn-admin-submit" style="background-color: #2563eb;">
+                        SIGN IN AS CUSTOMER
+                    </button>
+
+                    <!-- Back to Home Link -->
+                    <a href="index.html" class="login-back-home" title="กลับสู่หน้าหลัก">
+                        &larr; Back to Home
+                    </a>
+
+                    <!-- Demo Instructions Badge for Graders -->
+                    <aside class="login-demo-badge" id="demo-credentials-badge" aria-label="Demo Credentials">
+                        <small id="demo-badge-text">💡 <strong>Demo Customer:</strong> Username: <code>GundamLover159</code> | Password: <code>customer123</code></small>
+                    </aside>
+                </form>
+            </article>
+        </div>
+    </main>
+
+    <!-- Client-side Interactive Script & API Integration -->
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const togglePasswordBtn = document.getElementById('toggle-password-btn');
+            const passwordInput = document.getElementById('admin-password');
+            const loginForm = document.getElementById('admin-login-form');
+            const usernameInput = document.getElementById('admin-username');
+            const submitBtn = document.getElementById('btn-login-submit');
+
+            const tabCustomer = document.getElementById('tab-customer');
+            const tabAdmin = document.getElementById('tab-admin');
+            const roleNoticeText = document.getElementById('role-notice-text');
+            const demoBadgeText = document.getElementById('demo-badge-text');
+            const btnQuickFill = document.getElementById('btn-quick-fill');
+
+            let currentMode = 'Customer'; // 'Customer' or 'Admin'
+
+            // ฟังก์ชันสลับบทบาทระหว่าง Customer และ Admin
+            function switchRole(mode) {
+                currentMode = mode;
+                if (mode === 'Customer') {
+                    tabCustomer.classList.add('active');
+                    tabAdmin.classList.remove('active');
+                    tabCustomer.setAttribute('aria-selected', 'true');
+                    tabAdmin.setAttribute('aria-selected', 'false');
+
+                    roleNoticeText.innerHTML = '🛒 <strong>โหมดลูกค้า:</strong> สั่งซื้อสินค้า, ดูประวัติคำสั่งซื้อ และจัดการโปรไฟล์';
+                    submitBtn.textContent = 'SIGN IN AS CUSTOMER';
+                    submitBtn.style.backgroundColor = '#2563eb';
+                    demoBadgeText.innerHTML = '💡 <strong>บัญชีลูกค้าตัวอย่าง:</strong> Username: <code>GundamLover159</code> | Password: <code>customer123</code>';
+
+                    usernameInput.value = 'GundamLover159';
+                    passwordInput.value = 'customer123';
+                } else {
+                    tabAdmin.classList.add('active');
+                    tabCustomer.classList.remove('active');
+                    tabAdmin.setAttribute('aria-selected', 'true');
+                    tabCustomer.setAttribute('aria-selected', 'false');
+
+                    roleNoticeText.innerHTML = '🛡️ <strong>โหมดผู้ดูแลระบบ:</strong> จัดการสต็อกสินค้า, เพิ่ม/ลบ/แก้ไขโมเดล และจัดการผู้ใช้';
+                    submitBtn.textContent = 'SIGN IN AS ADMIN';
+                    submitBtn.style.backgroundColor = '#0d1117';
+                    demoBadgeText.innerHTML = '💡 <strong>บัญชีแอดมินตัวอย่าง:</strong> Username: <code>admin</code> | Password: <code>admin123</code>';
+
+                    usernameInput.value = 'admin';
+                    passwordInput.value = 'admin123';
+                }
+            }
+
+            tabCustomer.addEventListener('click', () => switchRole('Customer'));
+            tabAdmin.addEventListener('click', () => switchRole('Admin'));
+
+            btnQuickFill.addEventListener('click', () => {
+                if (currentMode === 'Customer') {
+                    usernameInput.value = 'GundamLover159';
+                    passwordInput.value = 'customer123';
+                } else {
+                    usernameInput.value = 'admin';
+                    passwordInput.value = 'admin123';
+                }
+            });
+
+            // Password show/hide toggle
+            if (togglePasswordBtn && passwordInput) {
+                togglePasswordBtn.addEventListener('click', () => {
+                    const isPassword = passwordInput.getAttribute('type') === 'password';
+                    passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                    togglePasswordBtn.style.opacity = isPassword ? '1' : '0.55';
+                });
+            }
+
+            // Web Service Authentication via Fetch API
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const username = usernameInput.value.trim();
+                    const password = passwordInput.value.trim();
+
+                    if (!username) {
+                        alert('กรุณากรอก Username สำหรับเข้าสู่ระบบ');
+                        usernameInput.focus();
+                        return;
+                    }
+
+                    if (!password) {
+                        alert('กรุณากรอก Password');
+                        passwordInput.focus();
+                        return;
+                    }
+
+                    const originalBtnText = submitBtn.innerText;
+                    submitBtn.innerText = 'LOGGING IN...';
+                    submitBtn.disabled = true;
+
+                    try {
+                        const result = await UnimartAPI.login(username, password);
+                        if (result.success && result.user) {
+                            sessionStorage.setItem('unimart_admin_logged', 'true');
+                            sessionStorage.setItem('unimart_admin_user', username);
+                            
+                            const role = result.user.role;
+                            // แยกเส้นทางปลายทางตามสิทธิ์ของผู้ใช้ (Role-based Routing)
+                            if (role === 'Customer') {
+                                alert(`🎉 ยินดีต้อนรับคุณ "${result.user.fullname || result.user.username}" (ลูกค้าทั่วไป) เข้าสู่ระบบเรียบร้อยแล้ว!`);
+                                window.location.href = 'index.html';
+                            } else {
+                                alert(`👑 ยินดีต้อนรับผู้ดูแลระบบ "${result.user.fullname || result.user.username}" (${role}) เข้าสู่ระบบ Admin Portal!`);
+                                window.location.href = 'admin-products.html';
+                            }
+                        } else {
+                            alert(result.message || 'การเข้าสู่ระบบล้มเหลว ตรวจสอบชื่อผู้ใช้และรหัสผ่าน');
+                        }
+                    } catch (err) {
+                        alert(`เกิดข้อผิดพลาดในการเข้าสู่ระบบ: ${err.message}`);
+                    } finally {
+                        submitBtn.innerText = originalBtnText;
+                        submitBtn.disabled = false;
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

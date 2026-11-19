@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management - Unimart Backoffice</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Unified External CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+</head>
+<body id="admin-body">
+
+    <div id="admin-layout">
+        <!-- Sidebar Navigation (Figma node 277:484) -->
+        <aside id="admin-sidebar" aria-label="Admin Navigation Sidebar">
+            <header class="admin-sidebar-logo">
+                <a href="index.html" title="Unimart Storefront">
+                    <img src="assets/images/logo.png" alt="Unimart Logo" width="160" height="60">
+                </a>
+            </header>
+
+            <nav aria-label="Backoffice Menu">
+                <ul class="admin-nav-list">
+                    <li class="admin-nav-item active">
+                        <a href="admin-products.html" aria-current="page">
+                            <span class="admin-nav-icon">📦</span>
+                            <span>Product Management</span>
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="admin-users.html">
+                            <span class="admin-nav-icon">👥</span>
+                            <span>User Management</span>
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="index.html" target="_blank" title="เปิดหน้าร้านค้าในแท็บใหม่">
+                            <span class="admin-nav-icon">🌐</span>
+                            <span>View Storefront</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <footer class="admin-sidebar-footer">
+                <a href="admin-profile.html" class="admin-user-profile" style="text-decoration: none;" title="ดูข้อมูลโปรไฟล์แอดมิน">
+                    <div class="admin-avatar">A</div>
+                    <div class="admin-user-info">
+                        <div class="admin-user-name">Admin Manager</div>
+                        <div class="admin-user-role">Super Admin &bull; Profile</div>
+                    </div>
+                </a>
+                <a href="login.html" class="btn-sidebar-logout" title="ออกจากระบบ">
+                    <span>🚪 Log out</span>
+                </a>
+            </footer>
+        </aside>
+
+        <!-- Main Product Management Content Area (Figma node 277:481) -->
+        <main id="admin-main">
+            <!-- Header Row with Page Title and Add Product Button -->
+            <header class="admin-header-row">
+                <h1 class="admin-page-title">Product Management</h1>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <button type="button" id="btn-open-quick-restock" class="btn-restock-primary" style="display: inline-flex; align-items: center; gap: 8px; background: #10b981; color: #ffffff; border: none; padding: 12px 22px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.25);" title="เติมสต็อกสินค้าที่หมดหรือเหลือน้อย">
+                        <span>📦</span>
+                        <span>RESTOCK</span>
+                    </button>
+                    <button type="button" id="btn-open-add-modal" class="btn-add-primary">
+                        <span>➕</span>
+                        <span>ADD PRODUCT</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Search & Filter Card -->
+            <section class="admin-toolbar-card" aria-label="Product Search and Filter Controls">
+                <div class="admin-search-wrapper">
+                    <span class="admin-search-icon-inside">🔍</span>
+                    <input 
+                        type="text" 
+                        id="admin-product-search" 
+                        class="admin-search-input" 
+                        placeholder="Search product by name or id..."
+                        aria-label="ค้นหาสินค้า"
+                    >
+                </div>
+
+                <div class="admin-filter-group">
+                    <select id="admin-filter-grade" class="admin-select" aria-label="Filter by Grade">
+                        <option value="all">All Grades</option>
+                        <option value="RG">RG (Real Grade)</option>
+                        <option value="MG">MG (Master Grade)</option>
+                        <option value="HG">HG (High Grade)</option>
+                        <option value="PG">PG (Perfect Grade)</option>
+                    </select>
+
+                    <select id="admin-filter-category" class="admin-select" aria-label="Filter by Category">
+                        <option value="all">All Category (ทุกหมวดหมู่)</option>
+                        <option value="gundam">Gundam Plastic Model</option>
+                        <option value="parts">Parts &amp; Accessories</option>
+                        <option value="tools">Tools &amp; Supplies</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Product Data Table (Figma node 277:486) -->
+            <section class="admin-table-card" aria-label="Product Data Table">
+                <table class="admin-table" id="admin-product-table">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 70px;">ID</th>
+                            <th scope="col" style="width: 90px;">Image</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col" style="width: 100px;">Grade</th>
+                            <th scope="col" style="width: 120px;">Price</th>
+                            <th scope="col" style="width: 90px;">Stock</th>
+                            <th scope="col" style="width: 130px;">Status</th>
+                            <th scope="col" style="width: 160px; text-align: center;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-product-tbody">
+                        <!-- Default Seed Data Rows (Populated by JS or Static Fallback) -->
+                        <tr>
+                            <td><strong>#1</strong></td>
+                            <td><img src="assets/images/product-freedom.png" alt="Strike Freedom" class="admin-table-thumb"></td>
+                            <td>
+                                <strong>ZGMF-X20A Strike Freedom Gundam</strong>
+                                <div style="font-size: 0.8rem; color: #64748b;">Mobile Suit Gundam SEED Destiny</div>
+                            </td>
+                            <td><span class="badge-grade">MG</span></td>
+                            <td><strong>฿2,450</strong></td>
+                            <td>15 ชิ้น</td>
+                            <td><span class="badge-status instock">In Stock</span></td>
+                            <td>
+                                <div class="admin-actions-cell" style="justify-content: center; gap: 6px;">
+                                    <button class="btn-action-icon restock" title="เติมสต็อกสินค้า (Restock)" onclick="openRestockModal(1)">
+                                        <img src="assets/images/icon-package.png" alt="Restock">
+                                    </button>
+                                    <button class="btn-action-icon edit" title="แก้ไขสินค้า" onclick="openEditModal(1)">
+                                        <img src="assets/images/icon-edit.png" alt="Edit">
+                                    </button>
+                                    <button class="btn-action-icon delete" title="ลบสินค้า" onclick="openDeleteModal(1)">
+                                        <img src="assets/images/icon-delete.png" alt="Delete">
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>#2</strong></td>
+                            <td><img src="assets/images/product-god.png" alt="God Gundam" class="admin-table-thumb"></td>
+                            <td>
+                                <strong>GF13-017NJII God Gundam</strong>
+                                <div style="font-size: 0.8rem; color: #64748b;">Mobile Fighter G Gundam</div>
+                            </td>
+                            <td><span class="badge-grade">RG</span></td>
+                            <td><strong>฿1,850</strong></td>
+                            <td>8 ชิ้น</td>
+                            <td><span class="badge-status instock">In Stock</span></td>
+                            <td>
+                                <div class="admin-actions-cell" style="justify-content: center; gap: 6px;">
+                                    <button class="btn-action-icon restock" title="เติมสต็อกสินค้า (Restock)" onclick="openRestockModal(2)">
+                                        <img src="assets/images/icon-package.png" alt="Restock">
+                                    </button>
+                                    <button class="btn-action-icon edit" title="แก้ไขสินค้า" onclick="openEditModal(2)">
+                                        <img src="assets/images/icon-edit.png" alt="Edit">
+                                    </button>
+                                    <button class="btn-action-icon delete" title="ลบสินค้า" onclick="openDeleteModal(2)">
+                                        <img src="assets/images/icon-delete.png" alt="Delete">
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>#3</strong></td>
+                            <td><img src="assets/images/about-rx78.png" alt="RX-78-2 Gundam" class="admin-table-thumb"></td>
+                            <td>
+                                <strong>RX-78-2 Gundam Perfect Grade Unleashed</strong>
+                                <div style="font-size: 0.8rem; color: #64748b;">Mobile Suit Gundam 0079</div>
+                            </td>
+                            <td><span class="badge-grade">PG</span></td>
+                            <td><strong>฿8,900</strong></td>
+                            <td>3 ชิ้น</td>
+                            <td><span class="badge-status lowstock">Low Stock</span></td>
+                            <td>
+                                <div class="admin-actions-cell" style="justify-content: center; gap: 6px;">
+                                    <button class="btn-action-icon restock" title="เติมสต็อกสินค้า (Restock)" onclick="openRestockModal(3)">
+                                        <img src="assets/images/icon-package.png" alt="Restock">
+                                    </button>
+                                    <button class="btn-action-icon edit" title="แก้ไขสินค้า" onclick="openEditModal(3)">
+                                        <img src="assets/images/icon-edit.png" alt="Edit">
+                                    </button>
+                                    <button class="btn-action-icon delete" title="ลบสินค้า" onclick="openDeleteModal(3)">
+                                        <img src="assets/images/icon-delete.png" alt="Delete">
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Pagination Footer (Figma node 277:530) -->
+                <footer class="admin-table-footer">
+                    <div class="admin-counts-text" id="admin-pagination-info">
+                        Showing <strong id="admin-showing-count">1-10</strong> of <strong id="admin-total-count">16</strong> products
+                    </div>
+                    <div class="admin-pagination">
+                        <button class="page-btn" id="btn-prev-page" title="หน้าก่อนหน้า">&lt;</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <button class="page-btn" id="btn-next-page" title="หน้าถัดไป">&gt;</button>
+                    </div>
+                </footer>
+            </section>
+        </main>
+    </div>
+
+    <!-- =====================================================================
+         Modal 1: Add New Product Modal (Figma node 277:461)
+         ===================================================================== -->
+    <div id="add-product-modal" class="admin-modal-overlay" aria-hidden="true" role="dialog" aria-labelledby="add-modal-title">
+        <article class="admin-modal-card">
+            <h2 id="add-modal-title" class="modal-header-title">Add New Product</h2>
+            <form id="add-product-form">
+                <div class="modal-form-grid">
+                    <div class="modal-form-group">
+                        <label for="add-prod-name">Product Name *</label>
+                        <input type="text" id="add-prod-name" class="modal-input" placeholder="e.g. RG 1/144 Hi-Nu Gundam" required>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label for="add-prod-grade">Grade *</label>
+                        <select id="add-prod-grade" class="modal-select" required>
+                            <option value="RG">RG (Real Grade)</option>
+                            <option value="MG">MG (Master Grade)</option>
+                            <option value="HG">HG (High Grade)</option>
+                            <option value="PG">PG (Perfect Grade)</option>
+                            <option value="Non-Grade">Non-Grade</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label for="add-prod-category">Category *</label>
+                        <select id="add-prod-category" class="modal-select" required>
+                            <option value="gundam">Gundam Plastic Model</option>
+                            <option value="parts">Parts &amp; Accessories</option>
+                            <option value="tools">Tools &amp; Supplies</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label for="add-prod-price">Price (THB) *</label>
+                        <input type="number" id="add-prod-price" class="modal-input" placeholder="e.g. 1950" min="0" step="50" required>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label for="add-prod-stock">Stock Quantity *</label>
+                        <input type="number" id="add-prod-stock" class="modal-input" placeholder="e.g. 10" min="0" required>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label for="add-prod-status">Status</label>
+                        <select id="add-prod-status" class="modal-select">
+                            <option value="In Stock">In Stock</option>
+                            <option value="Low Stock">Low Stock</option>
+                            <option value="Out of Stock">Out of Stock</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-form-group modal-form-full">
+                        <label for="add-prod-desc">Description</label>
+                        <textarea id="add-prod-desc" class="modal-textarea" placeholder="รายละเอียดของโมเดลกันพลา จุดเด่น และอุปกรณ์ในกล่อง..."></textarea>
+                    </div>
+
+                    <div class="modal-form-group modal-form-full">
+                        <label>Product Image (รูปภาพสินค้า)</label>
+                        
+                        <!-- โซนคลิกเลือกไฟล์หรือลากไฟล์รูปภาพมาวาง (HTML5 File Input + Drag & Drop) -->
+                        <label for="add-prod-file" class="modal-upload-zone" id="add-upload-zone" title="คลิกเพื่อเลือกไฟล์รูปภาพ หรือลากรูปมาวางที่นี่">
+                            <img src="assets/images/icon-upload.png" alt="Upload Icon" style="pointer-events: none;">
+                            <p style="margin: 0; font-weight: 600; color: #3b82f6; pointer-events: none;">Click to upload or drag &amp; drop</p>
+                            <span style="display: inline-flex; align-items: center; gap: 6px; background: #2563eb; color: #ffffff; padding: 6px 16px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; margin: 4px 0; cursor: pointer; pointer-events: none;">📁 เลือกไฟล์รูปภาพจากเครื่อง</span>
+                            <small style="color: #64748b; pointer-events: none;">PNG, JPG, WebP (หรือระบุ Path ด้านล่าง)</small>
+                            <input type="file" id="add-prod-file" accept="image/*" style="position: absolute; opacity: 0; width: 0.1px; height: 0.1px; pointer-events: none;">
+                        </label>
+
+                        <!-- การ์ดแสดงพรีวิวรูปภาพตัวอย่าง -->
+                        <div id="add-preview-wrap" class="modal-image-preview-card" style="display: none; margin-top: 8px;">
+                            <img id="add-preview-img" src="" alt="Product Preview" class="modal-image-preview-thumb">
+                            <div class="modal-image-preview-info">
+                                <div id="add-preview-name" class="modal-image-preview-name">filename.png</div>
+                                <div id="add-preview-meta" class="modal-image-preview-meta">0 KB</div>
+                            </div>
+                            <button type="button" id="btn-remove-add-preview" class="btn-remove-preview" title="ยกเลิกรูปนี้">Remove</button>
+                        </div>
+
+                        <!-- ช่อง Path/URL ทางเลือก -->
+                        <input type="text" id="add-prod-image" class="modal-input" placeholder="assets/images/product-freedom.png หรือ URL รูปภาพ" style="margin-top: 8px;">
+                        <small style="color: #64748b; font-size: 0.82rem; margin-top: 4px; display: block;">สามารถเลือกไฟล์จากเครื่อง หรือพิมพ์ Path รูปภาพเช่น assets/images/product-freedom.png</small>
+                    </div>
+                </div>
+
+                <footer class="modal-actions-row">
+                    <button type="button" class="btn-modal-cancel" id="btn-cancel-add">CANCEL</button>
+                    <button type="submit" class="btn-modal-save">SAVE</button>
+                </footer>
+            </form>
+        </article>
+    </div>
+
+    <!-- =====================================================================
+         Modal 2: Edit Product Modal (Figma node 277:436)
+         ===================================================================== -->
+    <div id="edit-product-modal" class="admin-modal-overlay" aria-hidden="true" role="dialog" aria-labelledby="edit-modal-title">
+        <article class="admin-modal-card">
+            <h2 id="edit-modal-title" class="modal-header-title">Edit Product</h2>
+            <form id="edit-product-form">
+                <input type="hidden" id="edit-prod-id">
+                <div class="modal-form-grid">
+                    <div class="modal-form-group">
+                        <label for="edit-prod-name">Product Name *</label>
+                        <input type="text" id="edit-prod-name" class="modal-input" required>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label for="edit-prod-grade">Grade *</label>
+                        <select id="edit-prod-grade" class="modal-select" required>
+                            <option value="RG">RG (Real Grade)</option>
+                            <option value="MG">MG (Master Grade)</option>
+                            <option value="HG">HG (High Grade)</option>
+                            <option value="PG">PG (Perfect Grade)</option>
+                            <option value="Non-Grade">Non-Grade</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label for="edit-prod-category">Category *</label>
+                        <select id="edit-prod-category" class="modal-select" required>
+                            <option value="gundam">Gundam Plastic Model</option>
+                            <option value="parts">Parts &amp; Accessories</option>
+                            <option value="tools">Tools &amp; Supplies</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label for="edit-prod-price">Price (THB) *</label>
+                        <input type="number" id="edit-prod-price" class="modal-input" min="0" step="50" required>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label for="edit-prod-stock">Stock Quantity *</label>
+                        <input type="number" id="edit-prod-stock" class="modal-input" min="0" required>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label for="edit-prod-status">Status</label>
+                        <select id="edit-prod-status" class="modal-select">
+                            <option value="In Stock">In Stock</option>
+                            <option value="Low Stock">Low Stock</option>
+                            <option value="Out of Stock">Out of Stock</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-form-group modal-form-full">
+                        <label for="edit-prod-desc">Description</label>
+                        <textarea id="edit-prod-desc" class="modal-textarea"></textarea>
+                    </div>
+
+                    <div class="modal-form-group modal-form-full">
+                        <label>Product Image (รูปภาพสินค้า)</label>
+                        
+                        <!-- โซนคลิกเลือกไฟล์หรือลากไฟล์รูปภาพมาวาง (HTML5 File Input + Drag & Drop) -->
+                        <label for="edit-prod-file" class="modal-upload-zone" id="edit-upload-zone" title="คลิกเพื่อเลือกไฟล์รูปภาพ หรือลากรูปมาวางที่นี่">
+                            <img src="assets/images/icon-upload.png" alt="Upload Icon" style="pointer-events: none;">
+                            <p style="margin: 0; font-weight: 600; color: #3b82f6; pointer-events: none;">Click to change image or drag &amp; drop</p>
+                            <span style="display: inline-flex; align-items: center; gap: 6px; background: #2563eb; color: #ffffff; padding: 6px 16px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; margin: 4px 0; cursor: pointer; pointer-events: none;">📁 เลือกไฟล์รูปภาพใหม่</span>
+                            <small style="color: #64748b; pointer-events: none;">PNG, JPG, WebP (หรือระบุ Path ด้านล่าง)</small>
+                            <input type="file" id="edit-prod-file" accept="image/*" style="position: absolute; opacity: 0; width: 0.1px; height: 0.1px; pointer-events: none;">
+                        </label>
+
+                        <!-- การ์ดแสดงพรีวิวรูปภาพตัวอย่าง -->
+                        <div id="edit-preview-wrap" class="modal-image-preview-card" style="display: none; margin-top: 8px;">
+                            <img id="edit-preview-img" src="" alt="Product Preview" class="modal-image-preview-thumb">
+                            <div class="modal-image-preview-info">
+                                <div id="edit-preview-name" class="modal-image-preview-name">Current Image</div>
+                                <div id="edit-preview-meta" class="modal-image-preview-meta">0 KB</div>
+                            </div>
+                            <button type="button" id="btn-remove-edit-preview" class="btn-remove-preview" title="รีเซ็ต">Reset</button>
+                        </div>
+
+                        <!-- ช่อง Path/URL ทางเลือก -->
+                        <input type="text" id="edit-prod-image" class="modal-input" placeholder="assets/images/product-freedom.png หรือ URL รูปภาพ" style="margin-top: 8px;">
+                        <small style="color: #64748b; font-size: 0.82rem; margin-top: 4px; display: block;">สามารถเลือกไฟล์จากเครื่อง หรือพิมพ์ Path รูปภาพเช่น assets/images/product-freedom.png</small>
+                    </div>
+                </div>
+
+                <footer class="modal-actions-row">
+                    <button type="button" class="btn-modal-cancel" id="btn-cancel-edit">CANCEL</button>
+                    <button type="submit" class="btn-modal-save">SAVE CHANGES</button>
+                </footer>
+            </form>
+        </article>
+    </div>
+
+    <!-- =====================================================================
+         Modal 3: Delete Confirmation Modal (Figma node 339:118)
+         ===================================================================== -->
+    <div id="delete-product-modal" class="admin-modal-overlay" aria-hidden="true" role="dialog" aria-labelledby="delete-modal-title">
+        <article class="delete-modal-card">
+            <h2 id="delete-modal-title" class="delete-modal-title">Confirm Product Delete</h2>
+            
+            <div class="delete-modal-body">
+                <img src="assets/images/product-freedom.png" alt="Product to Delete" id="delete-preview-thumb" class="delete-product-thumb">
+                <div class="delete-product-info">
+                    <p style="margin: 0 0 6px;"><strong>Product Name :</strong> <span id="delete-prod-name">ZGMF-X20A Strike Freedom</span></p>
+                    <p style="margin: 0 0 6px;"><strong>Price :</strong> <span id="delete-prod-price">฿2,450</span></p>
+                    <p style="margin: 0 0 6px;"><strong>Grade :</strong> <span id="delete-prod-grade">MG</span></p>
+                    <p style="margin: 0 0 6px;"><strong>Stock :</strong> <span id="delete-prod-stock">15 ชิ้น</span></p>
+                    <p style="margin: 0;"><strong>Status :</strong> <span id="delete-prod-status">On Sale</span></p>
+                </div>
+            </div>
+
+            <footer class="delete-modal-actions">
+                <button type="button" class="btn-delete-cancel" id="btn-cancel-delete">Cancel</button>
+                <button type="button" class="btn-delete-confirm" id="btn-confirm-delete">Delete</button>
+            </footer>
+        </article>
+    </div>
+
+    <!-- =====================================================================
+         Modal 4: Restock Product Modal (Figma & Store Operations)
+         ===================================================================== -->
+    <div id="restock-product-modal" class="admin-modal-overlay" aria-hidden="true" role="dialog" aria-labelledby="restock-modal-title">
+        <article class="admin-modal-card" style="max-width: 520px;">
+            <h2 id="restock-modal-title" class="modal-header-title" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                <span>📦</span>
+                <span>Restock Product (เติมสต็อกสินค้า)</span>
+            </h2>
+
+            <!-- Product Summary Card -->
+            <div style="display: flex; gap: 16px; align-items: center; background: #f8fafc; padding: 14px 16px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #e2e8f0;">
+                <img id="restock-prod-thumb" src="assets/images/product-freedom.png" alt="Product Thumbnail" style="width: 70px; height: 70px; object-fit: contain; background: #ffffff; border-radius: 8px; border: 1px solid #cbd5e1; padding: 4px;">
+                <div style="flex: 1; overflow: hidden;">
+                    <h3 id="restock-prod-name" style="margin: 0 0 4px; font-size: 1.05rem; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Product Name</h3>
+                    <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 4px;" id="restock-prod-meta">Grade: MG • Price: ฿1,750</div>
+                    <div style="font-size: 0.9rem; font-weight: 600; color: #334155;">
+                        คงเหลือปัจจุบัน: <span id="restock-current-stock" style="color: #2563eb; font-size: 1.15rem; font-weight: 800;">0</span> ชิ้น
+                    </div>
+                </div>
+            </div>
+
+            <form id="restock-product-form">
+                <input type="hidden" id="restock-prod-id">
+
+                <div class="modal-form-group">
+                    <label for="restock-add-qty" style="font-weight: 700; color: #1e293b;">จำนวนชิ้นที่ต้องการเติมเข้าสต็อก (Add Quantity) *</label>
+                    <input type="number" id="restock-add-qty" class="modal-input" min="1" step="1" value="10" required style="font-size: 1.3rem; font-weight: 800; text-align: center; height: 52px; color: #0f172a;">
+                </div>
+
+                <!-- Quick Presets -->
+                <div style="display: flex; gap: 8px; margin: 12px 0 18px;">
+                    <button type="button" class="btn-restock-preset" onclick="setRestockQty(5)" style="flex: 1; padding: 9px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; font-weight: 700; cursor: pointer; color: #1e293b; transition: all 0.15s;">+5</button>
+                    <button type="button" class="btn-restock-preset" onclick="setRestockQty(10)" style="flex: 1; padding: 9px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; font-weight: 700; cursor: pointer; color: #1e293b; transition: all 0.15s;">+10</button>
+                    <button type="button" class="btn-restock-preset" onclick="setRestockQty(20)" style="flex: 1; padding: 9px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; font-weight: 700; cursor: pointer; color: #1e293b; transition: all 0.15s;">+20</button>
+                    <button type="button" class="btn-restock-preset" onclick="setRestockQty(50)" style="flex: 1; padding: 9px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; font-weight: 700; cursor: pointer; color: #1e293b; transition: all 0.15s;">+50</button>
+                </div>
+
+                <!-- Live Summary Preview -->
+                <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 12px 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: #065f46; font-size: 0.95rem; font-weight: 600;">สต็อกใหม่หลังเติม:</span>
+                    <strong id="restock-new-total" style="color: #059669; font-size: 1.2rem;">0 ชิ้น (In Stock)</strong>
+                </div>
+
+                <footer class="modal-actions-row">
+                    <button type="button" class="btn-modal-cancel" id="btn-cancel-restock">Cancel</button>
+                    <button type="submit" class="btn-modal-save" style="background-color: #10b981;">
+                        CONFIRM RESTOCK
+                    </button>
+                </footer>
+            </form>
+        </article>
+    </div>
+
+    <!-- Shared Product Dataset & Admin Operations Script with Web Services Integration -->
+    <script src="js/products.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        // Array of admin products loaded via Web Services API
+        let adminProducts = [];
+        let pendingDeleteId = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await reloadProducts();
+            setupAdminEventListeners();
+        });
+
+        // Load or reload products from Web Services API
+        async function reloadProducts() {
+            try {
+                adminProducts = await UnimartAPI.getProducts();
+            } catch (err) {
+                console.warn('Backend unavailable, fallback to local products.js:', err);
+                if (typeof products !== 'undefined' && Array.isArray(products)) {
+                    adminProducts = JSON.parse(JSON.stringify(products));
+                }
+            }
+            renderAdminTable(adminProducts);
+        }
+
+        // Render product rows into the table
+        function renderAdminTable(items) {
+            const tbody = document.getElementById('admin-product-tbody');
+            const showingCount = document.getElementById('admin-showing-count');
+            const totalCount = document.getElementById('admin-total-count');
+
+            if (!tbody) return;
+
+            if (items.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 40px; color: #64748b;">ไม่พบข้อมูลสินค้าที่ตรงกับคำค้นหา</td></tr>`;
+                if (showingCount) showingCount.textContent = '0';
+                if (totalCount) totalCount.textContent = '0';
+                return;
+            }
+
+            let html = '';
+            items.forEach((p) => {
+                let statusClass = 'instock';
+                let statusText = p.status || 'In Stock';
+                if (p.stock <= 0) {
+                    statusClass = 'outofstock';
+                    statusText = 'Out of Stock';
+                } else if (p.stock <= 5) {
+                    statusClass = 'lowstock';
+                    statusText = 'Low Stock';
+                }
+
+                const imgUrl = p.image_url || p.image || 'assets/images/product-freedom.png';
+
+                html += `
+                    <tr data-id="${p.id}">
+                        <td><strong>#${p.id}</strong></td>
+                        <td><img src="${imgUrl}" alt="${p.name}" class="admin-table-thumb" onerror="this.src='assets/images/detail-gunpla-main.png'"></td>
+                        <td>
+                            <strong>${p.name}</strong>
+                            <div style="font-size: 0.8rem; color: #64748b;">${p.series || 'Bandai Gunpla Original'}</div>
+                        </td>
+                        <td><span class="badge-grade">${p.grade || 'N/A'}</span></td>
+                        <td><strong>฿${Number(p.price).toLocaleString()}</strong></td>
+                        <td>${p.stock} ชิ้น</td>
+                        <td><span class="badge-status ${statusClass}">${statusText}</span></td>
+                        <td>
+                            <div class="admin-actions-cell" style="justify-content: center; gap: 6px;">
+                                <button type="button" class="btn-action-icon restock" title="เติมสต็อกสินค้า (Restock)" onclick="openRestockModal(${p.id})">
+                                    <img src="assets/images/icon-package.png" alt="Restock">
+                                </button>
+                                <button type="button" class="btn-action-icon edit" title="แก้ไขสินค้า" onclick="openEditModal(${p.id})">
+                                    <img src="assets/images/icon-edit.png" alt="Edit">
+                                </button>
+                                <button type="button" class="btn-action-icon delete" title="ลบสินค้า" onclick="openDeleteModal(${p.id})">
+                                    <img src="assets/images/icon-delete.png" alt="Delete">
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+            if (showingCount) showingCount.textContent = `1-${items.length}`;
+            if (totalCount) totalCount.textContent = items.length;
+        }
+
+        // Search & Filter Handler via Web Services API
+        async function applyFilters() {
+            const query = document.getElementById('admin-product-search').value.toLowerCase().trim();
+            const grade = document.getElementById('admin-filter-grade').value;
+            const category = document.getElementById('admin-filter-category').value;
+
+            try {
+                const results = await UnimartAPI.getProducts({
+                    q: query,
+                    grade: grade === 'all' ? '' : grade,
+                    category: category === 'all' ? '' : category
+                });
+                adminProducts = results;
+                renderAdminTable(results);
+            } catch (err) {
+                const filtered = adminProducts.filter(p => {
+                    const matchQuery = !query || p.name.toLowerCase().includes(query) || String(p.id).includes(query);
+                    const matchGrade = (grade === 'all') || (p.grade === grade);
+                    const matchCat = (category === 'all') || (p.category === category);
+                    return matchQuery && matchGrade && matchCat;
+                });
+                renderAdminTable(filtered);
+            }
+        }
+
+        /**
+         * ฟังก์ชันช่วยติดตั้งตัวเลือกไฟล์รูปภาพ (HTML5 File API + FileReader มาตรฐานเบราว์เซอร์)
+         * ทำงานบน Vanilla JS 100% โดยอ่านไฟล์รูปจากเครื่องแล้วแสดง Preview พร้อมแปลงเป็น Data URL ส่งไปใน JSON ได้ทันที
+         */
+        function setupImagePicker({ zoneId, fileInputId, urlInputId, wrapId, imgId, nameId, metaId, removeBtnId, defaultImage }) {
+            const zone = document.getElementById(zoneId);
+            const fileInput = document.getElementById(fileInputId);
+            const urlInput = document.getElementById(urlInputId);
+            const wrap = document.getElementById(wrapId);
+            const img = document.getElementById(imgId);
+            const nameEl = document.getElementById(nameId);
+            const metaEl = document.getElementById(metaId);
+            const removeBtn = document.getElementById(removeBtnId);
+
+            if (!zone || !fileInput) return;
+
+            // เมื่อเลือกไฟล์จาก File Dialog
+            fileInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    processFile(this.files[0]);
+                }
+            });
+
+            // รองรับการ Drag and Drop ไฟล์รูปภาพลงในกล่อง
+            ['dragenter', 'dragover'].forEach(eventName => {
+                zone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    zone.classList.add('dragover');
+                });
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                zone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('dragover');
+                });
+            });
+            zone.addEventListener('drop', (e) => {
+                if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+                    processFile(e.dataTransfer.files[0]);
+                }
+            });
+
+            // ใช้ FileReader (Native Web API) อ่านไฟล์ภาพ
+            function processFile(file) {
+                if (!file.type.startsWith('image/')) {
+                    alert('⚠️ กรุณาเลือกไฟล์ที่เป็นรูปภาพเท่านั้น (PNG, JPG, WebP)');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const result = e.target.result;
+                    if (urlInput) urlInput.value = result;
+                    if (img) img.src = result;
+                    if (nameEl) nameEl.textContent = file.name;
+                    if (metaEl) metaEl.textContent = `${(file.size / 1024).toFixed(1)} KB • ${file.type.replace('image/', '').toUpperCase()}`;
+                    if (wrap) wrap.style.display = 'flex';
+                };
+                reader.readAsDataURL(file);
+            }
+
+            // ปุ่มลบ / รีเซ็ตรูปภาพ
+            if (removeBtn) {
+                removeBtn.addEventListener('click', () => {
+                    fileInput.value = '';
+                    if (defaultImage) {
+                        if (urlInput) urlInput.value = defaultImage;
+                        if (img) img.src = defaultImage;
+                        if (nameEl) nameEl.textContent = 'Default Image';
+                        if (metaEl) metaEl.textContent = 'รูปภาพเริ่มต้น';
+                    } else {
+                        if (urlInput) urlInput.value = '';
+                        if (wrap) wrap.style.display = 'none';
+                    }
+                });
+            }
+
+            // ถ้าผู้ใช้พิมพ์ในช่อง URL Input โดยตรง ก็ให้อัปเดต Preview ด้วย
+            if (urlInput) {
+                urlInput.addEventListener('input', function() {
+                    if (this.value.trim()) {
+                        if (img) img.src = this.value.trim();
+                        if (nameEl) nameEl.textContent = 'Image URL / Path';
+                        if (metaEl) metaEl.textContent = this.value.trim();
+                        if (wrap) wrap.style.display = 'flex';
+                    } else {
+                        if (wrap) wrap.style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        // Setup Event Listeners
+        function setupAdminEventListeners() {
+            document.getElementById('admin-product-search').addEventListener('input', applyFilters);
+            document.getElementById('admin-filter-grade').addEventListener('change', applyFilters);
+            document.getElementById('admin-filter-category').addEventListener('change', applyFilters);
+
+            // ติดตั้ง Image Picker สำหรับ Modal เพิ่มสินค้า
+            setupImagePicker({
+                zoneId: 'add-upload-zone',
+                fileInputId: 'add-prod-file',
+                urlInputId: 'add-prod-image',
+                wrapId: 'add-preview-wrap',
+                imgId: 'add-preview-img',
+                nameId: 'add-preview-name',
+                metaId: 'add-preview-meta',
+                removeBtnId: 'btn-remove-add-preview',
+                defaultImage: ''
+            });
+
+            // ติดตั้ง Image Picker สำหรับ Modal แก้ไขสินค้า
+            setupImagePicker({
+                zoneId: 'edit-upload-zone',
+                fileInputId: 'edit-prod-file',
+                urlInputId: 'edit-prod-image',
+                wrapId: 'edit-preview-wrap',
+                imgId: 'edit-preview-img',
+                nameId: 'edit-preview-name',
+                metaId: 'edit-preview-meta',
+                removeBtnId: 'btn-remove-edit-preview',
+                defaultImage: 'assets/images/product-freedom.png'
+            });
+
+            // Add Modal Trigger
+            const addModal = document.getElementById('add-product-modal');
+            const openAddBtn = document.getElementById('btn-open-add-modal');
+            const cancelAddBtn = document.getElementById('btn-cancel-add');
+            const addForm = document.getElementById('add-product-form');
+
+            openAddBtn.addEventListener('click', () => {
+                addForm.reset();
+                const addInput = document.getElementById('add-prod-image');
+                if (addInput) addInput.value = '';
+                const addWrap = document.getElementById('add-preview-wrap');
+                if (addWrap) addWrap.style.display = 'none';
+                addModal.classList.add('open');
+                addModal.setAttribute('aria-hidden', 'false');
+            });
+
+            cancelAddBtn.addEventListener('click', () => {
+                addModal.classList.remove('open');
+                addModal.setAttribute('aria-hidden', 'true');
+            });
+
+            // Add Product Web Service Submit (POST /api/products)
+            addForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('add-prod-name').value.trim();
+                const price = Number(document.getElementById('add-prod-price').value);
+                const stock = Number(document.getElementById('add-prod-stock').value);
+
+                if (!name) {
+                    alert('⚠️ กรุณาระบุชื่อสินค้า (Product Name)');
+                    document.getElementById('add-prod-name').focus();
+                    return;
+                }
+                if (isNaN(price) || price < 0) {
+                    alert('⚠️ กรุณาระบุราคาสินค้าที่ถูกต้อง');
+                    document.getElementById('add-prod-price').focus();
+                    return;
+                }
+
+                const newProduct = {
+                    name: name,
+                    grade: document.getElementById('add-prod-grade').value,
+                    category: document.getElementById('add-prod-category').value,
+                    price: price,
+                    stock: isNaN(stock) ? 0 : stock,
+                    status: document.getElementById('add-prod-status').value,
+                    series: 'Universal Century',
+                    scale: '1/100',
+                    image_url: document.getElementById('add-prod-image').value.trim() || 'assets/images/product-freedom.png',
+                    description: document.getElementById('add-prod-desc').value.trim()
+                };
+
+                const saveBtn = addForm.querySelector('.btn-modal-save');
+                if (saveBtn) {
+                    saveBtn.disabled = true;
+                    saveBtn.textContent = 'SAVING...';
+                }
+
+                try {
+                    const res = await UnimartAPI.createProduct(newProduct);
+                    alert(`✅ เพิ่มสินค้า "${newProduct.name}" สำเร็จเรียบร้อยแล้ว!`);
+                    await reloadProducts();
+                    addModal.classList.remove('open');
+                    addModal.setAttribute('aria-hidden', 'true');
+                } catch (err) {
+                    alert(`เกิดข้อผิดพลาดในการเพิ่มสินค้า: ${err.message}`);
+                } finally {
+                    if (saveBtn) {
+                        saveBtn.disabled = false;
+                        saveBtn.textContent = 'SAVE';
+                    }
+                }
+            });
+
+            // Edit Modal Cancel
+            const editModal = document.getElementById('edit-product-modal');
+            document.getElementById('btn-cancel-edit').addEventListener('click', () => {
+                editModal.classList.remove('open');
+                editModal.setAttribute('aria-hidden', 'true');
+            });
+
+            // Edit Form Web Service Submit (PUT /api/products/:id)
+            document.getElementById('edit-product-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const id = Number(document.getElementById('edit-prod-id').value);
+                const updatedData = {
+                    name: document.getElementById('edit-prod-name').value.trim(),
+                    grade: document.getElementById('edit-prod-grade').value,
+                    category: document.getElementById('edit-prod-category').value,
+                    price: Number(document.getElementById('edit-prod-price').value),
+                    stock: Number(document.getElementById('edit-prod-stock').value),
+                    image_url: document.getElementById('edit-prod-image').value.trim() || 'assets/images/product-freedom.png',
+                    description: document.getElementById('edit-prod-desc').value.trim()
+                };
+
+                const saveBtn = document.getElementById('edit-product-form').querySelector('.btn-modal-save');
+                if (saveBtn) {
+                    saveBtn.disabled = true;
+                    saveBtn.textContent = 'SAVING...';
+                }
+
+                try {
+                    await UnimartAPI.updateProduct(id, updatedData);
+                    alert(`✅ บันทึกการแก้ไขสินค้า ID #${id} สำเร็จ!`);
+                    await reloadProducts();
+                    editModal.classList.remove('open');
+                    editModal.setAttribute('aria-hidden', 'true');
+                } catch (err) {
+                    alert(`เกิดข้อผิดพลาดในการแก้ไขสินค้า: ${err.message}`);
+                } finally {
+                    if (saveBtn) {
+                        saveBtn.disabled = false;
+                        saveBtn.textContent = 'SAVE CHANGES';
+                    }
+                }
+            });
+
+            // Delete Modal Handlers (DELETE /api/products/:id)
+            const deleteModal = document.getElementById('delete-product-modal');
+            document.getElementById('btn-cancel-delete').addEventListener('click', () => {
+                deleteModal.classList.remove('open');
+                deleteModal.setAttribute('aria-hidden', 'true');
+                pendingDeleteId = null;
+            });
+
+            document.getElementById('btn-confirm-delete').addEventListener('click', async () => {
+                if (pendingDeleteId !== null) {
+                    try {
+                        await UnimartAPI.deleteProduct(pendingDeleteId);
+                        alert(`🗑️ ลบสินค้า ID #${pendingDeleteId} ออกจากระบบเรียบร้อยแล้ว`);
+                        await reloadProducts();
+                    } catch (err) {
+                        alert(`เกิดข้อผิดพลาดในการลบสินค้า: ${err.message}`);
+                    }
+                    deleteModal.classList.remove('open');
+                    deleteModal.setAttribute('aria-hidden', 'true');
+                    pendingDeleteId = null;
+                }
+            });
+
+            // Restock Modal Trigger & Handlers (PUT /api/products/:id)
+            const restockModal = document.getElementById('restock-product-modal');
+            const cancelRestockBtn = document.getElementById('btn-cancel-restock');
+            const restockForm = document.getElementById('restock-product-form');
+            const restockQtyInput = document.getElementById('restock-add-qty');
+
+            if (cancelRestockBtn) {
+                cancelRestockBtn.addEventListener('click', () => {
+                    restockModal.classList.remove('open');
+                    restockModal.setAttribute('aria-hidden', 'true');
+                });
+            }
+
+            if (restockQtyInput) {
+                restockQtyInput.addEventListener('input', updateRestockTotalDisplay);
+            }
+
+            if (restockForm) {
+                restockForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const id = Number(document.getElementById('restock-prod-id').value);
+                    const addQty = Number(document.getElementById('restock-add-qty').value);
+                    const product = adminProducts.find(p => p.id === id);
+                    if (!product) return;
+
+                    if (isNaN(addQty) || addQty <= 0) {
+                        alert('⚠️ กรุณาระบุจำนวนสินค้าที่ต้องการเติมอย่างน้อย 1 ชิ้น');
+                        return;
+                    }
+
+                    const currentStock = Number(product.stock) || 0;
+                    const newStock = currentStock + addQty;
+                    const newStatus = newStock > 5 ? 'In Stock' : 'Low Stock';
+
+                    const submitBtn = restockForm.querySelector('.btn-modal-save');
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = 'RESTOCKING...';
+                    }
+
+                    try {
+                        await UnimartAPI.updateProduct(id, {
+                            stock: newStock,
+                            status: newStatus
+                        });
+                        alert(`✅ เติมสต็อกสินค้า "${product.name}" สำเร็จ!\n📦 สต็อกเดิม: ${currentStock} ชิ้น\n➕ เติมเพิ่ม: ${addQty} ชิ้น\n🎉 สต็อกใหม่: ${newStock} ชิ้น (${newStatus})`);
+                        await reloadProducts();
+                        restockModal.classList.remove('open');
+                        restockModal.setAttribute('aria-hidden', 'true');
+                    } catch (err) {
+                        alert(`เกิดข้อผิดพลาดในการเติมสต็อก: ${err.message}`);
+                    } finally {
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'CONFIRM RESTOCK';
+                        }
+                    }
+                });
+            }
+
+            // ปุ่ม RESTOCK บน Header: เติมสต็อกสินค้าที่หมดหรือเหลือน้อยอย่างรวดเร็ว
+            const quickRestockHeaderBtn = document.getElementById('btn-open-quick-restock');
+            if (quickRestockHeaderBtn) {
+                quickRestockHeaderBtn.addEventListener('click', () => {
+                    const priorityItem = adminProducts.find(p => Number(p.stock) <= 0) || 
+                                         adminProducts.find(p => Number(p.stock) <= 5) || 
+                                         adminProducts[0];
+                    if (priorityItem) {
+                        openRestockModal(priorityItem.id);
+                    } else {
+                        alert('ขณะนี้สินค้าทุกชิ้นมีสต็อกเพียงพอแล้ว');
+                    }
+                });
+            }
+
+            // Close modals when clicking overlay outside card
+            [addModal, editModal, deleteModal, restockModal].forEach(modal => {
+                if (!modal) return;
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.remove('open');
+                        modal.setAttribute('aria-hidden', 'true');
+                    }
+                });
+            });
+        }
+
+        // ตัวแปรเก็บสินค้าที่กำลังเปิดเติมสต็อก
+        let activeRestockProduct = null;
+
+        window.openRestockModal = function(id) {
+            const product = adminProducts.find(p => p.id === id);
+            if (!product) return;
+            activeRestockProduct = product;
+
+            document.getElementById('restock-prod-id').value = product.id;
+            document.getElementById('restock-prod-name').textContent = product.name;
+            document.getElementById('restock-prod-meta').textContent = `${product.grade || 'Gunpla'} • ฿${Number(product.price).toLocaleString()} • ${product.series || ''}`;
+            document.getElementById('restock-current-stock').textContent = product.stock;
+            
+            const thumb = document.getElementById('restock-prod-thumb');
+            thumb.src = product.image_url || product.image || 'assets/images/product-freedom.png';
+            thumb.onerror = () => { thumb.src = 'assets/images/detail-gunpla-main.png'; };
+
+            document.getElementById('restock-add-qty').value = 10;
+            updateRestockTotalDisplay();
+
+            const restockModal = document.getElementById('restock-product-modal');
+            restockModal.classList.add('open');
+            restockModal.setAttribute('aria-hidden', 'false');
+        };
+
+        window.setRestockQty = function(qty) {
+            document.getElementById('restock-add-qty').value = qty;
+            updateRestockTotalDisplay();
+        };
+
+        function updateRestockTotalDisplay() {
+            if (!activeRestockProduct) return;
+            const currentStock = Number(activeRestockProduct.stock) || 0;
+            const addQty = Number(document.getElementById('restock-add-qty').value) || 0;
+            const total = currentStock + addQty;
+            const status = total > 5 ? 'In Stock' : total > 0 ? 'Low Stock' : 'Out of Stock';
+            const totalDisplay = document.getElementById('restock-new-total');
+            if (totalDisplay) {
+                totalDisplay.textContent = `${total} ชิ้น (${status})`;
+            }
+        }
+
+        // Global functions called from inline onclick buttons
+        window.openEditModal = function(id) {
+            const product = adminProducts.find(p => p.id === id);
+            if (!product) return;
+
+            document.getElementById('edit-prod-id').value = product.id;
+            document.getElementById('edit-prod-name').value = product.name;
+            document.getElementById('edit-prod-grade').value = product.grade || 'HG';
+            document.getElementById('edit-prod-category').value = product.category || 'gundam';
+            document.getElementById('edit-prod-price').value = product.price;
+            document.getElementById('edit-prod-stock').value = product.stock;
+            document.getElementById('edit-prod-desc').value = product.description || '';
+            document.getElementById('edit-prod-image').value = product.image_url || product.image || '';
+
+            // แสดงพรีวิวรูปภาพเดิมของสินค้า
+            const editWrap = document.getElementById('edit-preview-wrap');
+            const editImg = document.getElementById('edit-preview-img');
+            const editName = document.getElementById('edit-preview-name');
+            const editMeta = document.getElementById('edit-preview-meta');
+            if (editWrap && editImg) {
+                editImg.src = product.image_url || product.image || 'assets/images/product-freedom.png';
+                if (editName) editName.textContent = product.name || 'Current Image';
+                if (editMeta) editMeta.textContent = 'รูปภาพปัจจุบันของสินค้า';
+                editWrap.style.display = 'flex';
+            }
+
+            const editModal = document.getElementById('edit-product-modal');
+            editModal.classList.add('open');
+            editModal.setAttribute('aria-hidden', 'false');
+        };
+
+        window.openDeleteModal = function(id) {
+            const product = adminProducts.find(p => p.id === id);
+            if (!product) return;
+
+            pendingDeleteId = id;
+            document.getElementById('delete-prod-name').textContent = product.name;
+            document.getElementById('delete-prod-price').textContent = '฿' + Number(product.price).toLocaleString();
+            document.getElementById('delete-prod-grade').textContent = product.grade || 'N/A';
+            document.getElementById('delete-prod-stock').textContent = `${product.stock} ชิ้น`;
+            document.getElementById('delete-prod-status').textContent = product.stock > 0 ? (product.status || 'In Stock') : 'Out of Stock';
+            
+            const thumb = document.getElementById('delete-preview-thumb');
+            thumb.src = product.image_url || product.image || 'assets/images/product-freedom.png';
+            thumb.onerror = () => { thumb.src = 'assets/images/detail-gunpla-main.png'; };
+
+            const deleteModal = document.getElementById('delete-product-modal');
+            deleteModal.classList.add('open');
+            deleteModal.setAttribute('aria-hidden', 'false');
+        };
+    </script>
+</body>
+</html>
