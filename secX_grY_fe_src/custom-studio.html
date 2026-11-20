@@ -467,13 +467,29 @@
             </div>
         </section>
 
-        <!-- STEP 3: ACTIVE CUSTOM COMMISSIONS BOARD -->
-        <section style="padding-top: 10px;">
-            <div class="studio-panel">
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <!-- ADMIN ACCESS NOTICE / TOGGLE (แสดงเมื่อไม่ใช่ Admin) -->
+        <div id="admin-toggle-notice" style="text-align: center; margin-top: 24px; padding: 12px; font-size: 0.82rem; color: #64748b;">
+            🔒 กระดานติดตามสถานะและจัดการดีลงาน Custom สงวนสิทธิ์การเข้าถึงเฉพาะแอดมินและทีมงานเท่านั้น
+            <a href="login.html?tab=admin" style="color: #38bdf8; text-decoration: none; margin-left: 6px; font-weight:600;">[เข้าสู่ระบบ Admin]</a>
+            <span style="margin: 0 6px;">หรือ</span>
+            <a href="custom-studio.html?admin=true" style="color: #f59e0b; text-decoration: none; font-weight:600;">[เปิดมุมมอง Admin Mode]</a>
+        </div>
+
+        <!-- STEP 3: ACTIVE CUSTOM COMMISSIONS BOARD (ADMIN ONLY) -->
+        <section id="custom-deals-admin-section" style="padding-top: 10px; display: none;">
+            <div class="studio-panel" style="border: 1px solid #78350f;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
                     <div>
+                        <div style="display:inline-flex; align-items:center; gap:6px; background:#78350f; color:#fde68a; font-size:0.75rem; font-weight:700; padding:3px 8px; border-radius:4px; margin-bottom:6px;">
+                            🛡️ ADMIN & STAFF ONLY — แผงควบคุมจัดการสถานะงาน Custom สำหรับทีมงาน
+                        </div>
                         <h2 style="font-size:1.35rem; color:#fff; margin-bottom:4px;">📋 กระดานติดตามสถานะงานสั่งทำ Custom (Custom Commission Board)</h2>
-                        <p style="font-size:0.88rem; color:#94a3b8;">รายการดีลงาน Custom ที่ตกลงกับช่างของ UNIMART แล้ว สามารถติดตามสถานะการประกอบ/ทำสี หรือกดชำระเงินได้ทันที</p>
+                        <p style="font-size:0.88rem; color:#94a3b8;">รายการดีลงาน Custom ที่ตกลงกับช่างของ UNIMART แล้ว (เฉพาะผู้ดูแลระบบและทีมงานช่างในการอัปเดตสถานะ)</p>
+                    </div>
+                    <div>
+                        <a href="admin-products.html" style="background:#1e293b; color:#94a3b8; border:1px solid #334155; padding:6px 12px; border-radius:6px; font-size:0.8rem; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+                            <span>📦 ไปที่ Admin Panel</span>
+                        </a>
                     </div>
                 </div>
 
@@ -491,7 +507,7 @@
                             </tr>
                         </thead>
                         <tbody id="custom-deals-tbody">
-                            <!-- โหลดด้วย JS -->
+                            <!-- โหลดด้วย JS เฉพาะ Admin -->
                         </tbody>
                     </table>
                 </div>
@@ -591,7 +607,7 @@
             await loadProductsForSelector();
             resetBuilderChat();
             recalculateCustomQuote();
-            await loadCustomDealsBoard();
+            checkAdminAccessForDealsBoard();
         });
 
         function renderBuildersGrid() {
@@ -865,8 +881,30 @@
                 deal_status: 'รอสรุปดีล (Negotiating)'
             });
 
-            await loadCustomDealsBoard();
-            appendChatMessage('builder', `📌 บันทึกใบดีลหมายเลข <b>${dealRecord.deal_number}</b> ลงในกระดานติดตามงานด้านล่างเรียบร้อยแล้วครับ!`);
+            checkAdminAccessForDealsBoard();
+            appendChatMessage('builder', `📌 บันทึกใบดีลหมายเลข <b>${dealRecord.deal_number}</b> ส่งต่อไปยังทีมงานช่างเรียบร้อยแล้วครับ! สามารถตรวจสอบสถานะงานได้ในหน้า Profile ของคุณ`);
+        }
+
+        function checkAdminAccessForDealsBoard() {
+            const user = UnimartAPI.getCurrentUser();
+            const urlParams = new URLSearchParams(window.location.search);
+            const forceAdmin = urlParams.get('admin') === 'true' || urlParams.get('admin') === '1';
+
+            // ตรวจสอบสิทธิ์ผู้ดูแลระบบ (Super Admin, Manager, Staff หรือ URL ?admin=true)
+            const isAdmin = forceAdmin || (user && user.role && user.role !== 'Customer');
+            const adminSection = document.getElementById('custom-deals-admin-section');
+            const toggleNotice = document.getElementById('admin-toggle-notice');
+
+            if (adminSection) {
+                if (isAdmin) {
+                    adminSection.style.display = 'block';
+                    if (toggleNotice) toggleNotice.style.display = 'none';
+                    loadCustomDealsBoard();
+                } else {
+                    adminSection.style.display = 'none';
+                    if (toggleNotice) toggleNotice.style.display = 'block';
+                }
+            }
         }
 
         async function loadCustomDealsBoard() {
