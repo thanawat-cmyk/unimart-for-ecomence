@@ -1,0 +1,9 @@
+{
+  "name": "unimart-ecommerce",
+  "version": "1.0.0",
+  "private": true,
+  "description": "UNIMART E-Commerce Web Application",
+  "scripts": {
+    "build": "echo 'Static build completed successfully'"
+  }
+}
