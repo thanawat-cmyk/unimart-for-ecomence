@@ -80,23 +80,9 @@
                         <img id="detail-main-img" src="assets/images/detail-gunpla-main.png" alt="Product Image">
                     </figure>
 
-                    <!-- แกลเลอรีรูปขนาดย่อ (Thumbnails) -->
-                    <div class="thumbnail-carousel">
-                        <div class="thumb-item active" onclick="changeMainImage(this)">
-                            <img src="assets/images/detail-gunpla-main.png" alt="Thumb 1">
-                        </div>
-                        <div class="thumb-item" onclick="changeMainImage(this)">
-                            <img src="assets/images/product-freedom.png" alt="Thumb 2">
-                        </div>
-                        <div class="thumb-item" onclick="changeMainImage(this)">
-                            <img src="assets/images/product-god.png" alt="Thumb 3">
-                        </div>
-                        <div class="thumb-item" onclick="changeMainImage(this)">
-                            <img src="assets/images/about-rx78.png" alt="Thumb 4">
-                        </div>
-                        <div class="thumb-item" onclick="changeMainImage(this)">
-                            <img src="assets/images/hero-banner.png" alt="Thumb 5">
-                        </div>
+                    <!-- แกลเลอรีรูปขนาดย่อ (Thumbnails โหลดตามสินค้าจริง) -->
+                    <div class="thumbnail-carousel" id="detail-thumbnail-carousel">
+                        <!-- รายการรูปขนาดย่อจะถูกสร้างโดยอัตโนมัติตามรูปของสินค้าจริง ไม่แสดงรูปหุ่นตัวอื่นที่ไม่เกี่ยวข้อง -->
                     </div>
                 </div>
 
@@ -325,12 +311,87 @@
         // สลับรูปภาพหลักในแกลเลอรีเมื่อคลิกที่รูปขนาดย่อ
         function changeMainImage(thumbElement) {
             const mainImg = document.getElementById('detail-main-img');
-            const clickedImgSrc = thumbElement.querySelector('img').src;
-            mainImg.src = clickedImgSrc;
+            const clickedImg = thumbElement.querySelector('img');
+            if (mainImg && clickedImg) {
+                mainImg.src = clickedImg.src;
+            }
 
             // ปรับสถานะ active ให้กับ thumbnail ที่เลือก
             document.querySelectorAll('.thumb-item').forEach(item => item.classList.remove('active'));
             thumbElement.classList.add('active');
+        }
+
+        // แสดงรูปภาพขนาดย่อ (Thumbnails) เฉพาะรูปของสินค้านั้นๆ เท่านั้น (ไม่แสดงรูปหุ่นตัวอื่นที่ไม่เกี่ยวข้อง)
+        function renderProductThumbnails(product, mainImgUrl) {
+            const carousel = document.getElementById('detail-thumbnail-carousel') || document.querySelector('.thumbnail-carousel');
+            if (!carousel) return;
+            carousel.innerHTML = '';
+
+            let images = [];
+            // ตรวจสอบว่ามีข้อมูลรูปหลายรูปจาก gallery หรือ images หรือไม่
+            if (Array.isArray(product.gallery) && product.gallery.length > 0) {
+                images = product.gallery;
+            } else if (typeof product.gallery === 'string' && product.gallery.trim()) {
+                try {
+                    const parsed = JSON.parse(product.gallery);
+                    if (Array.isArray(parsed)) images = parsed;
+                    else images = [product.gallery];
+                } catch {
+                    images = product.gallery.split(',').map(s => s.trim()).filter(Boolean);
+                }
+            } else if (Array.isArray(product.images) && product.images.length > 0) {
+                images = product.images;
+            }
+
+            // เพิ่มรูปภาพหลักเข้าแกลเลอรี
+            const primaryImg = product.image_url || product.image || mainImgUrl;
+            if (primaryImg && !images.includes(primaryImg)) {
+                images.unshift(primaryImg);
+            }
+
+            // กรณีพิเศษ: สินค้าตัวอย่างเริ่มต้น Freedom Gundam Ver.2.0 (id = 1) ที่ไม่ได้อัปโหลดรูปใหม่
+            // ให้แสดงมุมมองเฉพาะของ Freedom เท่านั้น (ไม่ปนกับหุ่นตัวอื่น)
+            const isDefaultFreedom = (product.id == 1 || (product.name && product.name.includes('Freedom GUNDAM Ver.2.0'))) &&
+                                    (!primaryImg || primaryImg.includes('freedom') || primaryImg.includes('detail-gunpla-main'));
+            if (isDefaultFreedom && images.length === 1) {
+                images = [
+                    'assets/images/detail-gunpla-main.png',
+                    'assets/images/product-freedom.png',
+                    'assets/images/order-freedom-thumb.png'
+                ];
+            }
+
+            // กรองค่าว่างและรูปที่ซ้ำกันออก
+            images = [...new Set(images.filter(Boolean))];
+            if (images.length === 0 && primaryImg) {
+                images = [primaryImg];
+            }
+
+            // สร้าง Thumbnail เฉพาะรูปภาพของสินค้านี้
+            images.forEach((imgSrc, idx) => {
+                const thumbItem = document.createElement('div');
+                thumbItem.className = `thumb-item ${idx === 0 ? 'active' : ''}`;
+                thumbItem.setAttribute('role', 'button');
+                thumbItem.setAttribute('tabindex', '0');
+                thumbItem.setAttribute('title', `ดูภาพมุมมองที่ ${idx + 1}`);
+                thumbItem.onclick = function() { changeMainImage(this); };
+                thumbItem.onkeydown = function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        changeMainImage(this);
+                    }
+                };
+
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.alt = `${product.name || 'Product'} thumbnail ${idx + 1}`;
+                img.onerror = function() {
+                    this.src = primaryImg || 'assets/images/product-freedom.png';
+                };
+
+                thumbItem.appendChild(img);
+                carousel.appendChild(thumbItem);
+            });
         }
 
         // สลับแท็บเนื้อหา (Description / Details / Reviews)
@@ -417,8 +478,13 @@
                 document.getElementById('detail-price').innerHTML = `฿${priceNum.toLocaleString()}${approxJpyText}`;
                 document.getElementById('detail-stock').textContent = `${product.status || 'In Stock'} (มีสินค้า ${product.stock} ชิ้น)`;
 
-                // อัปเดตรูปภาพ
-                document.getElementById('detail-main-img').src = imgUrl;
+                // อัปเดตรูปภาพหลักและแกลเลอรีรูปขนาดย่อ (Thumbnails ให้ตรงกับรูปภาพของสินค้านี้เท่านั้น)
+                const mainImg = document.getElementById('detail-main-img');
+                if (mainImg) {
+                    mainImg.src = imgUrl;
+                    mainImg.alt = product.name || 'Product Image';
+                }
+                renderProductThumbnails(product, imgUrl);
 
                 // อัปเดตตารางสเปก
                 document.getElementById('spec-grade').textContent = `${product.grade} (${product.scale || ''})`;
