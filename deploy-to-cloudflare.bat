@@ -7,10 +7,10 @@ echo ===================================================================
 echo.
 cd /d "%~dp0"
 
-echo กำลังเริ่มกระบวนการ Deploy โฟลเดอร์ secX_grY_fe_src...
-echo (หากระบบถามชื่อ Project หรือให้ล็อกอิน ให้ทำตามขั้นตอนเพียง 1 ครั้ง)
+echo กำลังเริ่มกระบวนการ Deploy โฟลเดอร์ secX_grY_fe_src ไปยัง unimart-for-ecomence...
+echo (หากระบบถามให้ล็อกอินในเบราว์เซอร์ ให้กด Allow / Authorize)
 echo.
-npx wrangler pages deploy secX_grY_fe_src
+call npx --yes wrangler pages deploy secX_grY_fe_src --project-name=unimart-for-ecomence --commit-dirty=true
 echo.
 echo ===================================================================
 echo   เสร็จสิ้น! กดปุ่มใดๆ เพื่อปิดหน้าต่างนี้

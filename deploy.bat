@@ -13,13 +13,17 @@ git add .
 echo [2/3] บันทึกการเปลี่ยนแปลง (Commit)...
 git commit -m "Update UNIMART: %date% %time%"
 
-echo [3/3] ส่งไฟล์ขึ้น GitHub (Push to main)...
+echo [3/4] ส่งไฟล์ขึ้น GitHub (Push to main & master)...
 git push origin main
+git push origin master
+
+echo [4/4] ส่งไฟล์ขึ้น Cloudflare Pages (Deploy ล่าสุด)...
+call npx --yes wrangler pages deploy secX_grY_fe_src --project-name=unimart-for-ecomence --commit-dirty=true
 
 echo.
 echo ===================================================================
 echo   สำเร็จเรียบร้อย! 🎉
-echo   Cloudflare จะตรวจพบโค้ดใหม่และอัปเดตหน้าเว็บให้อัตโนมัติใน 1-2 นาทีครับ
+echo   หน้าเว็บ Cloudflare Pages อัปเดตเป็นเวอร์ชันล่าสุดแล้วครับ
 echo ===================================================================
 echo.
 pause
