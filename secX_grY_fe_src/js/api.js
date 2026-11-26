@@ -551,7 +551,7 @@ const UnimartAPI = {
         customer_id: 6,
         customer_name: 'กันดัม เลิฟเวอร์ (GundamLover159)',
         builder_id: 2,
-        builder_name: 'ช่างศรัณย์ (ช่างดอน - Custom Paint & Candy Finish)',
+        builder_name: 'นายศรัณย์ วัฒนเมธี (ช่างดอน - Custom Paint & Candy Finish)',
         base_product_id: 1,
         base_model_name: 'MG 1/100 Freedom GUNDAM Ver.2.0',
         custom_packages: 'Full Airbrush Custom Color + Water Slide Decal & UV Topcoat',
@@ -568,7 +568,7 @@ const UnimartAPI = {
         customer_id: 6,
         customer_name: 'กันดัม เลิฟเวอร์ (GundamLover159)',
         builder_id: 1,
-        builder_name: 'ช่างอัครพล (ช่างออฟ - Structural & LED Specialist)',
+        builder_name: 'นายอัครพล สุวรรณเวช (ช่างออฟ - Structural & LED Specialist)',
         base_product_id: 4,
         base_model_name: 'MG 1/100 Nu GUNDAM Ver.Ka',
         custom_packages: 'Clean Straight Build + Custom LED Unit & Action Base Setup',
@@ -604,7 +604,15 @@ const UnimartAPI = {
       } catch {}
       return defaultDeals;
     }
-    return localDeals;
+    // อัปเดตชื่อช่างในแคชเก่าให้เป็นชื่อคนจริงมืออาชีพโดยอัตโนมัติ
+    return localDeals.map(d => {
+      if (d.builder_name && (d.builder_name.includes('ดอน แซลมอนเนลลี่') || d.builder_name.includes('Godfather') || d.builder_name.includes('ช่างอโย') || d.builder_name.includes('อโยสรา') || d.builder_name.includes('ช่างดอน'))) {
+        d.builder_name = 'นายศรัณย์ วัฒนเมธี (ช่างดอน - Custom Paint & Candy Finish)';
+      } else if (d.builder_name && (d.builder_name.includes('ช่างออร์น') || d.builder_name.includes('Forge Master') || d.builder_name.includes('ช่างภูมิ') || d.builder_name.includes('ธนวัฒน์') || d.builder_name.includes('ช่างออฟ'))) {
+        d.builder_name = 'นายอัครพล สุวรรณเวช (ช่างออฟ - Structural & LED Specialist)';
+      }
+      return d;
+    });
   },
 
   /**
@@ -618,7 +626,7 @@ const UnimartAPI = {
       customer_id: dealData.customer_id || 6,
       customer_name: dealData.customer_name || 'กันดัม เลิฟเวอร์ (GundamLover159)',
       builder_id: dealData.builder_id || 1,
-      builder_name: dealData.builder_name || 'ช่างอัครพล (ช่างออฟ - Structural & LED Specialist)',
+      builder_name: dealData.builder_name || 'นายอัครพล สุวรรณเวช (ช่างออฟ - Structural & LED Specialist)',
       base_product_id: dealData.base_product_id || 1,
       base_model_name: dealData.base_model_name || 'MG 1/100 Freedom GUNDAM Ver.2.0',
       custom_packages: dealData.custom_packages || 'Clean Straight Build & Panel Line',

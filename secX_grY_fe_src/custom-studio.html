@@ -286,7 +286,7 @@
             <div class="section-header">
                 <div>
                     <h2 class="section-title" style="color:#fbbf24;">1. เลือกช่างประจำร้าน UNIMART (Select Your Master Builder)</h2>
-                    <p style="color:#94a3b8; font-size:0.95rem; margin-top:4px;">คลิกเลือกช่างที่ตรงกับสไตล์งานที่คุณต้องการ เพื่อเริ่มบรีฟและดีลราคา</p>
+                    <p style="color:#94a3b8; font-size:0.95rem; margin-top:4px;">ทีมช่างเทคนิคมืออาชีพตัวจริง (Verified Human Artisans) พร้อมใบรับรองประสบการณ์ระดับมือรางวัล *(รูปภาพคือรูปโปรไฟล์/อวตารประจำตัวของช่าง)*</p>
                 </div>
             </div>
 
@@ -412,10 +412,10 @@
                 <div class="studio-panel" style="display:flex; flex-direction:column;">
                     <div style="display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:12px; margin-bottom:12px;">
                         <div style="display:flex; align-items:center; gap:12px;">
-                            <img id="chat-builder-avatar" src="assets/images/member-3.png" alt="Builder" style="width:48px; height:48px; border-radius:50%; object-fit:cover; border:2px solid #fbbf24;">
+                            <img id="chat-builder-avatar" src="artist/artist-ornn.jpg" alt="Builder" style="width:48px; height:48px; border-radius:50%; object-fit:cover; border:2px solid #fbbf24;">
                             <div>
-                                <div id="chat-builder-name" style="font-weight:800; color:#fff; font-size:1rem;">ช่างภูมิ - ธนวัฒน์ (Lead Master Builder)</div>
-                                <div style="font-size:0.78rem; color:#4ade80;">● ออนไลน์ — พร้อมคุยรายละเอียดและประเมินราคา</div>
+                                <div id="chat-builder-name" style="font-weight:800; color:#fff; font-size:1rem;">นายอัครพล สุวรรณเวช (ช่างออฟ) — หัวหน้าช่างโครงสร้างและระบบไฟ LED</div>
+                                <div style="font-size:0.78rem; color:#4ade80;">● ช่างมนุษย์มืออาชีพตัวจริง (ออนไลน์ — พร้อมคุยรายละเอียดและประเมินราคา)</div>
                             </div>
                         </div>
                     </div>
@@ -539,61 +539,66 @@
     <script src="js/products.js"></script>
     <script src="js/api.js"></script>
     <script>
-        // ข้อมูลทีมช่างประจำ UNIMART Custom Gunpla Studio พร้อมรูปโปรไฟล์และประวัติช่างมืออาชีพ
+        // ข้อมูลทีมช่างประจำ UNIMART Custom Gunpla Studio (ช่างมนุษย์มืออาชีพตัวจริง รูปภาพคือรูปโปรไฟล์/อวตาร)
         const UNIMART_BUILDERS = [
             {
                 id: 1,
-                name: 'ช่างอัครพล (ช่างออฟ / Master Off)',
-                title: 'วิศวกรโครงสร้างและระบบไฟ LED (Senior Structural & Electronics Engineer)',
-                role: 'Chief Structural Engineer & Inner Frame Specialist',
-                specialty: 'เสริมความแกร่งโครงใน MG/PG, ดัดแปลงข้อต่อเรซิน & เดินระบบไฟ Micro LED แบบซ่อนสาย',
+                name: 'นายอัครพล สุวรรณเวช (ช่างออฟ)',
+                title: 'หัวหน้าช่างโครงสร้างและระบบไฟ LED',
+                role: 'Senior Structural & Electronics Engineer',
+                experience: 'ประสบการณ์ 12 ปี (วศ.บ. วิศวกรรมเครื่องกล)',
+                specialty: 'เสริมความแกร่งโครงใน MG/PG, ซ่อมแกนทองเหลืองแก้ข้อต่อหลวม & วางระบบไฟ Micro LED ใต้เกราะแบบซ่อนสายไฟ',
                 rating: '5.0 ⭐ (99+ ดีลสำเร็จ)',
                 avatar: 'artist/artist-ornn.jpg',
-                backstory: 'วิศวกรเครื่องกลผู้มีใจรักในงาน Gunpla Modeling มากว่า 12 ปี เชี่ยวชาญการวิเคราะห์จุดรับน้ำหนักของโครงใน (Inner Frame) การเสริมแกนโลหะทองเหลืองเพื่อแก้ปัญหาข้อต่อหลวม และการเดินสายไฟ Micro LED เตาปฏิกรณ์พลังงานที่ซ่อนสายไฟได้อย่างแนบเนียน ผลงานทุกชิ้นการันตีความแข็งแรง ทรงตัวมั่นคง โพสท่าหนักแน่นได้ยาวนาน (ชอบใช้อวตารช่างเตาหลอมเป็นรูปโปรไฟล์ประจำตัว)',
+                backstory: 'วิศวกรเครื่องกลผู้มีใจรักในงาน Gunpla Modeling มากว่า 12 ปี มีความเชี่ยวชาญเชิงลึกด้านการวิเคราะห์จุดรับน้ำหนักของโครงใน (Inner Frame) การเสริมแกนโลหะทองเหลืองเพื่อแก้ปัญหาข้อต่อหลวม และการเดินสายไฟ Micro LED เตาปฏิกรณ์พลังงานที่ซ่อนสายไฟได้อย่างแนบเนียน ผลงานทุกชิ้นการันตีโครงสร้างแน่นปึ้ก มั่นคง โพสท่าจัดแสดงได้ยาวนาน (ช่างเลือกใช้อวตารเตาหลอมเป็นรูปโปรไฟล์ประจำตัว)',
                 greeting: 'สวัสดีครับผมช่างออฟครับ ยินดีให้คำปรึกษาเรื่องโครงสร้างครับ หุ่นตัวไหนข้อต่อหลวม ยืนไม่อยู่ หรืออยากเดินระบบไฟ LED วงจรมินิแบบซ่อนสายไฟ ปรึกษาสเปกกับผมได้เลยครับ'
             },
             {
                 id: 2,
-                name: 'ช่างศรัณย์ (ช่างดอน / Master Don)',
-                title: 'ศิลปินผู้เชี่ยวชาญงานสีและขัดเงา (Senior Custom Paint & Surface Finishing Artist)',
-                role: 'Lead Custom Paint & Candy Finish Specialist',
-                specialty: 'พ่นสี Candy Tone, Chameleon Color Shift (สีเหลือบ), และงานขัดเงาระดับ Mirror Gloss ดุจกระจกเงา',
+                name: 'นายศรัณย์ วัฒนเมธี (ช่างดอน)',
+                title: 'ศิลปินผู้เชี่ยวชาญงานสีและขัดเงา',
+                role: 'Senior Custom Paint & Surface Finishing Artist',
+                experience: 'ประสบการณ์ 10 ปี (ศป.บ. จิตรกรรมสากล เกียรตินิยม)',
+                specialty: 'พ่นสี Candy Tone หลายชั้นไล่เฉด, สีเหลือบ Chameleon Color Shift & งานขัดเงาระดับ Mirror Gloss ดุจกระจกเงา',
                 rating: '4.9 ⭐ (88+ ดีลสำเร็จ)',
                 avatar: 'artist/artist-fish.jpg',
-                backstory: 'บัณฑิตเกียรตินิยมด้านจิตรกรรมสากลและผู้เชี่ยวชาญงานสีแอร์บรัชระดับมือรางวัล มีประสบการณ์ผสมสีสูตรพิเศษและพ่นสีเคลือบเงาให้โมเดลระดับพรีเมียมมากกว่า 10 ปี โดดเด่นด้วยเทคนิคการพ่นสี Candy Tone หลายชั้นจนมีมิติความลึก และงานขัดผิวระดับ Mirror Gloss ที่เนียนเรียบสะท้อนแสงดุจผิวน้ำ (ชอบใส่สูททำงานเนี้ยบ และใช้อวตารปลาเป็นรูปโปรไฟล์เฉพาะตัว)',
+                backstory: 'บัณฑิตเกียรตินิยมด้านจิตรกรรมสากลและผู้เชี่ยวชาญงานสีแอร์บรัชระดับมือรางวัล มีประสบการณ์ผสมสีสูตรพิเศษและพ่นสีเคลือบเงาให้โมเดลระดับพรีเมียมมากกว่า 10 ปี โดดเด่นด้วยเทคนิคการพ่นสี Candy Tone หลายชั้นจนมีมิติความลึก และงานขัดผิวระดับ Mirror Gloss ที่เนียนเรียบสะท้อนแสงดุจผิวน้ำ ควบคุมห้องพ่นสีปลอดฝุ่น (ช่างเลือกใช้อวตารสูทปลาเป็นรูปโปรไฟล์เฉพาะตัว)',
                 greeting: 'สวัสดีครับ ผมช่างดอน ยินดีต้อนรับครับ หากคุณกำลังมองหางานสีที่ประณีต เรียบเนียน ไร้ละอองเม็ดสี และเงางามสะดุดตา แจ้งโทนสีที่ต้องการได้เลยครับ'
             },
             {
                 id: 3,
-                name: 'ช่างกลวัชร (โค้ชก้าม / Coach Kam)',
-                title: 'นักออกแบบสัดส่วนและงานพลาเพลท (Custom Proportion & Plastic Plate Modeler)',
+                name: 'นายกลวัชร รัตนศิลป์ (โค้ชก้าม)',
+                title: 'นักออกแบบสัดส่วนและงานพลาเพลท',
                 role: 'Heavy Proportion & Muscular Armor Sculptor',
-                specialty: 'เสริมพลาเพลท (Plaplate), ขยายช่วงอก-ไหล่-เอว, อัปไซส์เกราะ & บาลานซ์สัดส่วนหุ่นให้ดูบึกบึนสง่างาม',
+                experience: 'ประสบการณ์ 8 ปี (สถาปัตยกรรมและการออกแบบ 3D)',
+                specialty: 'เสริมพลาเพลท (Plaplate), ขยายช่วงอก-ไหล่-เอว, อัปไซส์เกราะ & บาลานซ์สัดส่วนหุ่นสไตล์ Heavy Armor',
                 rating: '4.9 ⭐ (76+ ดีลสำเร็จ)',
                 avatar: 'artist/artist-duck.jpg',
-                backstory: 'นักออกแบบโมเดลสามมิติที่มีความชำนาญสูงด้านงานพลาเพลท (Plaplate) และงานดัดแปลงสัดส่วนหุ่น ด้วยความที่ชื่นชอบการออกกำลังกายและเพาะกาย เพื่อนๆ ในวงการโมเดลเลอร์จึงมักเรียกเขาว่า "โค้ชก้าม" เขามีเอกลักษณ์ในการเสริมกล้ามอก ขยายไหล่ และปรับช่วงขาของกันพลาให้ดูสง่า ทรงพลัง และมีมิติตามสไตล์ Heavy Armor ที่สมส่วน (ใช้อวตารเป็ดกล้ามเป็นรูปโปรไฟล์)',
+                backstory: 'นักออกแบบโมเดลสามมิติที่มีความชำนาญสูงด้านงานพลาเพลท (Plaplate) และงานดัดแปลงสัดส่วนหุ่น ด้วยความที่ชื่นชอบการออกกำลังกายและเพาะกาย เพื่อนๆ ในวงการโมเดลเลอร์จึงมักเรียกเขาว่า "โค้ชก้าม" เขามีเอกลักษณ์ในการเสริมกล้ามอก ขยายไหล่ และปรับช่วงขาของกันพลาให้ดูสง่า ทรงพลัง และมีมิติตามหลักสรีระจักรกลรบ (ช่างเลือกใช้อวตารเป็ดกล้ามเป็นรูปโปรไฟล์)',
                 greeting: 'สวัสดีครับ ผมช่างก้ามครับ อยากได้กันพลาที่ดูสัดส่วนแน่นๆ บึกบึน เกราะหนาสไตล์ Heavy Armor หรือปรับแก้ช่วงอกช่วงขาให้ดูสง่าทรงพลัง ส่งแบบมาคุยกันได้เลยครับ!'
             },
             {
                 id: 4,
-                name: 'ช่างรณชัย (ช่างร็อค / Master Rock)',
-                title: 'ผู้เชี่ยวชาญเอฟเฟกต์สมรภูมิและรอยศึก (Battle Damage & Weathering Specialist)',
+                name: 'นายรณชัย ชาญณรงค์ (ช่างร็อค)',
+                title: 'ผู้เชี่ยวชาญเอฟเฟกต์สมรภูมิและรอยศึก',
                 role: 'Battle Damage & Military Weathering Expert',
-                specialty: 'จำลองรอยกระสุน รอยฟันบีมเซเบอร์ คราบสนิมดินปืน & เทคนิค Weathering เสมือนจริง',
+                experience: 'ประสบการณ์ 12 ปี (ช่างโมเดลเลอร์สาย Military & Diorama)',
+                specialty: 'จำลองรอยกระสุน รอยฟันบีมเซเบอร์ คราบสนิมดินปืน & เทคนิค Weathering เสมือนจริงระดับประกวด',
                 rating: '4.8 ⭐ (64+ ดีลสำเร็จ)',
                 avatar: 'artist/artist-roach.jpg',
-                backstory: 'โมเดลเลอร์สาย Military และ Diorama ผู้คร่ำหวอดในวงการประกวดโมเดลสงครามมากว่า 12 ปี มีความเชี่ยวชาญขั้นสูงในการจำลองรอยแผลศึก รอยกระสุนปืนกล รอยไหม้จากความร้อนของบีม และคราบเขม่าดินปืน เปลี่ยนหุ่นพลาสติกธรรมดาให้ดูมีประวัติศาสตร์การรบอันโชกโชน สมจริงดั่งจักรกลสงครามตัวจริง (ใช้อวตารนักรบเกราะเป็นรูปโปรไฟล์)',
+                backstory: 'โมเดลเลอร์สาย Military และ Diorama ผู้คร่ำหวอดในวงการประกวดโมเดลสงครามมากว่า 12 ปี มีความเชี่ยวชาญขั้นสูงในการจำลองรอยแผลศึก รอยกระสุนปืนกล รอยไหม้จากความร้อนของบีม และคราบเขม่าดินปืน เปลี่ยนหุ่นพลาสติกธรรมดาให้ดูมีประวัติศาสตร์การรบอันโชกโชน สมจริงดั่งจักรกลสงครามตัวจริง (ช่างเลือกใช้อวตารนักรบเกราะเป็นรูปโปรไฟล์)',
                 greeting: 'สวัสดีครับ ผมช่างร็อคครับ หากคุณต้องการให้กันพลาตัวโปรดดูสมจริงเหมือนเพิ่งผ่านสมรภูมิรบอย่างดุเดือด รอยกระสุน คราบเขม่า หรือรอยสึกหรอ บอกผมได้เลยครับ'
             },
             {
                 id: 5,
-                name: 'ช่างทวีป (ลุงทุย / Master Thuy)',
-                title: 'ปรมาจารย์งานประกอบเนียนกริบและตัดเส้น (Precision Clean Build & Panel Line Artisan)',
+                name: 'นายทวีป สุขเกษม (ลุงทุย)',
+                title: 'ปรมาจารย์งานประกอบเนียนกริบและตัดเส้น',
                 role: 'Zen Master of Clean Build & Patience Panel Line',
+                experience: 'ประสบการณ์ 20 ปี (ช่างเทคนิคอาวุโสและที่ปรึกษาโมเดลลิ่ง)',
                 specialty: 'ตัดเกท 2 จังหวะเนียนกริบ 100% ไร้ฝ้าขาว, ลบรอยประกบด้วยกาวเหลว & เดินเส้น Panel Line คมกริบละเมียดละไม',
                 rating: '5.0 ⭐ (112+ ดีลสำเร็จ)',
                 avatar: 'artist/artist-buffalo.jpg',
-                backstory: 'ช่างฝีมือรุ่นใหญ่ใจเย็น ผู้มีประสบการณ์ต่อโมเดลลิ่งอย่างประณีตมากว่า 20 ปี คติประจำใจคือ "งานศิลป์ต้องใจเย็น" มีทักษะการใช้คีมคมเดียวตัดเกทแบบ 2 จังหวะที่ไม่ทิ้งรอยฝ้าขาวแม้แต่นิดเดียว ขัดเรียบด้วยตะไบแก้ว และเดินเส้น Panel Line ด้วยมือที่นิ่งดุจเครื่องจักร เก็บงานสะอาด ละเมียดละไมที่สุดในทีม (ใช้อวตารหนุนหมอนสบายอารมณ์เป็นรูปโปรไฟล์)',
+                backstory: 'ช่างฝีมือรุ่นใหญ่ใจเย็น ผู้มีประสบการณ์ต่อโมเดลลิ่งอย่างประณีตมากว่า 20 ปี คติประจำใจคือ "งานศิลป์ต้องใจเย็น" มีทักษะการใช้คีมคมเดียวตัดเกทแบบ 2 จังหวะที่ไม่ทิ้งรอยฝ้าขาวแม้แต่นิดเดียว ขัดเรียบด้วยตะไบแก้ว และเดินเส้น Panel Line ด้วยมือที่นิ่งดุจเครื่องจักร เก็บงานสะอาด ละเมียดละไมที่สุดในทีม (ช่างเลือกใช้อวตารหนุนหมอนสบายอารมณ์เป็นรูปโปรไฟล์)',
                 greeting: 'สวัสดีครับไอ้หนุ่ม ลุงทุยยินดีต้อนรับนะครับ งานต่อกันพลาให้สวยต้องใช้ความใจเย็น ตัดชิ้นส่วนช้าๆ แต่เนียนกริบไร้รอยตำหนิ สนใจส่งแบบไหนมาให้ลุงช่วยดูแลบอกได้เลยนะ'
             }
         ];
@@ -603,6 +608,14 @@
         let negotiatedDiscount = 0;
 
         document.addEventListener('DOMContentLoaded', async () => {
+            // ล้างแคชเก่าในเบราว์เซอร์ เพื่อบังคับให้ใช้ข้อมูลช่างเวอร์ชันล่าสุดที่เป็นมนุษย์มืออาชีพ
+            try {
+                if (localStorage.getItem('unimart_builder_v') !== '2026_pro_human_v4') {
+                    localStorage.removeItem('unimart_custom_deals');
+                    localStorage.setItem('unimart_builder_v', '2026_pro_human_v4');
+                }
+            } catch(e) {}
+
             renderBuildersGrid();
             await loadProductsForSelector();
             resetBuilderChat();
@@ -614,25 +627,31 @@
             const grid = document.getElementById('builders-grid');
             grid.innerHTML = UNIMART_BUILDERS.map(b => `
                 <div class="builder-card ${b.id === selectedBuilder.id ? 'selected' : ''}" onclick="selectBuilder(${b.id})">
+                    <div style="font-size:0.7rem; color:#4ade80; font-weight:700; margin-bottom:8px; display:flex; align-items:center; gap:5px;">
+                        <span>👤 ช่างประจำสตูดิโอ (Verified Builder)</span>
+                    </div>
                     <div class="builder-header">
-                        <img src="${b.avatar}" alt="${b.name}" class="builder-avatar" onerror="this.src='assets/images/avatar-user.png'">
-                        <div style="flex:1; min-width:0;">
-                            <div style="font-weight:800; font-size:1.05rem; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${b.name}</div>
-                            <div style="font-size:0.75rem; color:#fbbf24; font-weight:700;">${b.title}</div>
-                            <div style="font-size:0.75rem; color:#38bdf8; margin-top:2px;">${b.role}</div>
-                            <div style="font-size:0.74rem; color:#cbd5e1; margin-top:2px;">${b.rating}</div>
+                        <div style="text-align:center; flex-shrink:0;">
+                            <img src="${b.avatar}" alt="${b.name}" class="builder-avatar" onerror="this.src='assets/images/avatar-user.png'">
+                            <div style="font-size:0.65rem; color:#94a3b8; margin-top:4px;">(รูปโปรไฟล์อวตาร)</div>
+                        </div>
+                        <div style="flex:1; min-width:0; padding-left:4px;">
+                            <div style="font-weight:800; font-size:1.02rem; color:#fff; line-height:1.3;">${b.name}</div>
+                            <div style="font-size:0.75rem; color:#fbbf24; font-weight:700; margin-top:2px;">${b.title}</div>
+                            <div style="font-size:0.72rem; color:#38bdf8; margin-top:2px;">${b.experience}</div>
+                            <div style="font-size:0.72rem; color:#cbd5e1; margin-top:2px;">${b.rating}</div>
                         </div>
                     </div>
                     <div class="builder-specialty">${b.specialty}</div>
                     
                     <div class="builder-lore-box">
-                        <div class="builder-lore-title">📜 ปูมหลังและที่มาของช่าง:</div>
+                        <div class="builder-lore-title">📜 ประวัติและที่มาของช่าง:</div>
                         <div>${b.backstory}</div>
                         <span class="builder-quote">"${b.greeting}"</span>
                     </div>
 
                     <div style="margin-top:12px; font-size:0.8rem; color:#4ade80; display:flex; justify-content:space-between; align-items:center;">
-                        <span>🟢 คิวว่างพร้อมรับดีล</span>
+                        <span>🟢 พร้อมรับงาน Custom</span>
                         <span style="color:#fbbf24; font-weight:800; text-decoration:underline;">เลือกช่างคนนี้ &rarr;</span>
                     </div>
                 </div>
